@@ -5,161 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Graph</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="./style.css">
-
 </head>
-<body>
+
+<body style="height:1000px"> 
+    
     <div>
         <h1>Data Graph</h1>
-        <canvas id="myChart1" width="400" height="400"></canvas>
-        <canvas id="myChart2" width="400" height="400"></canvas>
-        <canvas id="myChart3" width="400" height="400"></canvas>
-        <canvas id="myChart4" width="400" height="400"></canvas>
-        <canvas id="myChart5" width="400" height="400"></canvas>
-        <canvas id="myChart6" width="400" height="400"></canvas>
+        {% for i in range(1, 7) %}
+            <canvas id="myChart{{ i }}" width="300px" height="25px"></canvas>
+        {% endfor %}
     </div>
     
     <script>
         var deviceData = {{ device_data | tojson | safe }};
-        console.log(deviceData)
+        console.log(deviceData);
         
-        var ctx1 = document.getElementById('myChart1').getContext('2d');
-        var myChart1 = new Chart(ctx1, {
-            type: 'line',
-            data: {
-                labels: deviceData.map(item => item.time),
-                datasets: [{
-                    label: 'W_Temp1',
-                    data: deviceData.map(item => item.W_Temp1),
-                    borderColor: 'rgb(75, 192, 192)',
-                    borderWidth: 2,
-                    fill: false
-                }]
-            },
-            options: {
-                scales: {
-                    x: [{
-                        type: 'linear',
-                        position: 'bottom'
+        {% for i in range(1, 7) %}
+            var ctx{{ i }} = document.getElementById('myChart{{ i }}').getContext('2d');
+            var myChart{{ i }} = new Chart(ctx{{ i }}, {
+                type: 'line',
+                data: {
+                    labels: deviceData.map(item => item.time),
+                    datasets: [{
+                        label: 'W_Temp{{ i }}',
+                        data: deviceData.map(item => item['W_Temp' + {{ i }}]),
+                        borderColor: 'rgb({{ 255 - (i * 20) }}, {{ 99 + (i * 10) }}, {{ 132 - (i * 15) }})',
+                        borderWidth: 2,
+                        fill: false
                     }]
+                },
+                options: {
+                    scales: {
+                        x: [{
+                            type: 'linear',
+                            position: 'bottom'
+                        }]
+                    }
                 }
-            }
-        });
-
-        var ctx2 = document.getElementById('myChart2').getContext('2d');
-        var myChart2 = new Chart(ctx2, {
-            type: 'line',
-            data: {
-                labels: deviceData.map(item => item.time),
-                datasets: [{
-                    label: 'W_Temp2',
-                    data: deviceData.map(item => item.W_Temp2),
-                    borderColor: 'rgb(255, 99, 132)',
-                    borderWidth: 2,
-                    fill: false
-                }]
-            },
-            options: {
-                scales: {
-                    x: [{
-                        type: 'linear',
-                        position: 'bottom'
-                    }]
-                }
-            }
-        });
-
-        var ctx3 = document.getElementById('myChart3').getContext('2d');
-        var myChart3 = new Chart(ctx3, {
-            type: 'line',
-            data: {
-                labels: deviceData.map(item => item.time),
-                datasets: [{
-                    label: 'W_Temp3',
-                    data: deviceData.map(item => item.W_Temp3),
-                    borderColor: 'rgb(255, 205, 86)',
-                    borderWidth: 2,
-                    fill: false
-                }]
-            },
-            options: {
-                scales: {
-                    x: [{
-                        type: 'linear',
-                        position: 'bottom'
-                    }]
-                }
-            }
-        });
-
-        var ctx4 = document.getElementById('myChart4').getContext('2d');
-        var myChart4 = new Chart(ctx4, {
-            type: 'line',
-            data: {
-                labels: deviceData.map(item => item.time),
-                datasets: [{
-                    label: 'W_Temp4',
-                    data: deviceData.map(item => item.W_Temp4),
-                    borderColor: 'rgb(54, 162, 235)',
-                    borderWidth: 2,
-                    fill: false
-                }]
-            },
-            options: {
-                scales: {
-                    x: [{
-                        type: 'linear',
-                        position: 'bottom'
-                    }]
-                }
-            }
-        });
-
-        var ctx5 = document.getElementById('myChart5').getContext('2d');
-        var myChart5 = new Chart(ctx5, {
-            type: 'line',
-            data: {
-                labels: deviceData.map(item => item.time),
-                datasets: [{
-                    label: 'W_Temp5',
-                    data: deviceData.map(item => item.W_Temp5),
-                    borderColor: 'rgb(255, 159, 64)',
-                    borderWidth: 2,
-                    fill: false
-                }]
-            },
-            options: {
-                scales: {
-                    x: [{
-                        type: 'linear',
-                        position: 'bottom'
-                    }]
-                }
-            }
-        });
-
-        var ctx6 = document.getElementById('myChart6').getContext('2d');
-        var myChart6 = new Chart(ctx6, {
-            type: 'line',
-            data: {
-                labels: deviceData.map(item => item.time),
-                datasets: [{
-                    label: 'W_Temp6',
-                    data: deviceData.map(item => item.W_Temp6),
-                    borderColor: 'rgb(153, 102, 255)',
-                    borderWidth: 2,
-                    fill: false
-                }]
-            },
-            options: {
-                scales: {
-                    x: [{
-                        type: 'linear',
-                        position: 'bottom'
-                    }]
-                }
-            }
-        });
+            });
+        {% endfor %}
     </script>
 
 </body>
