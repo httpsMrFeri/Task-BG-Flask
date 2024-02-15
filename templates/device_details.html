@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Details</title>
+</head>
+<body>
+    <h1>Device {{ device_id }} Details</h1>
+    <table border="1">
+        <tr>
+            <th>Event</th>
+            <th>Time</th>
+            <th>Date</th>
+            <th>W_Temp1</th>
+            <th>W_Temp2</th>
+            <th>W_Temp3</th>
+            <th>W_Temp4</th>
+            <th>W_Temp5</th>
+            <th>W_Temp6</th>
+            <th>B_Temp1</th>
+            <th>B_Temp2</th>
+            <th>Vib1</th>
+            <th>Vib2</th>
+            <th>Created At</th>
+            <!-- Add other data fields as needed -->
+        </tr>
+        {% for data in device_data %}
+            <tr>
+                <td>{{ data.event_id }}</td>
+                <td>{{ data.time }}</td>
+                <td>{{ data.date }}</td>
+                <td>{{ data.W_Temp1 }}</td>
+                <td>{{ data.W_Temp2 }}</td>
+                <td>{{ data.W_Temp3 }}</td>
+                <td>{{ data.W_Temp4 }}</td>
+                <td>{{ data.W_Temp5 }}</td>
+                <td>{{ data.W_Temp6 }}</td>
+                <td>{{ data.B_Temp1 }}</td>
+                <td>{{ data.B_Temp2 }}</td>
+                <td>{{ data.Vib1 }}</td>
+                <td>{{ data.Vib2 }}</td>
+                <td>{{ data.created_at }}</td>
+                <!-- Add other data fields as needed -->
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
