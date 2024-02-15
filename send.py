@@ -26,7 +26,7 @@ data = {
 
 try:
     response = requests.post(url, json=data, headers=headers)
-    response.raise_for_status()  # Raises an HTTPError if the HTTP request returned an unsuccessful status code
+    response.raise_for_status()  
 
     print(response.status_code)
     print(response.json())

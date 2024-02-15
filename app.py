@@ -10,7 +10,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# Load tokens from tokens.json
 with open('tokens.json') as file:
     tokens_data = json.load(file)
 tokens = tokens_data.get("tokens", [])
@@ -91,18 +90,17 @@ def store_data():
         data_json = request.json
         device_id = data_json.get('device_id')
 
-        # Check if the 'time' and 'date' keys are present and not None
         time_str = data_json.get('time')
         if time_str is not None:
             time = datetime.strptime(time_str, "%Y-%m-%dT%H:%M:%SZ")
         else:
-            time = None  # Set time to None if 'time' is not provided
+            time = None  
 
         date_str = data_json.get('date')
         if date_str is not None:
             date = datetime.strptime(date_str, "%Y-%m-%d").date()
         else:
-            date = None  # Set date to None if 'date' is not provided
+            date = None  
 
         new_data = Data(
             device_id=device_id,
