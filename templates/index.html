@@ -9,7 +9,9 @@
     <h1>Device List</h1>
     <ul>
         {% for device in devices %}
-            <li><a href="{{ url_for('device_details', device_id=device.device_id) }}">Device {{ device.device_id }}</a></li>
+            {% if device.id is defined %}
+                <li><a href="{{ url_for('device_details', device_id=device.id) }}">Device {{ device.id }}</a></li>
+            {% endif %}
         {% endfor %}
     </ul>
 </body>

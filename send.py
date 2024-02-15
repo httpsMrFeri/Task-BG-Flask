@@ -1,7 +1,7 @@
 import requests
 
 url = "http://127.0.0.1:5000/api/store_data"
-headers = {"Content-Type": "application/json", "Token": "YOUR_ACCESS_TOKEN"}
+headers = {"Content-Type": "application/json", "Token": "edd54e000210d30c512bc7018073cf88"}
 
 data = {
     "Device_ID": 65256,
@@ -26,7 +26,7 @@ data = {
 
 try:
     response = requests.post(url, json=data, headers=headers)
-    response.raise_for_status()  # در صورتی که پاسخ مشکل داشته باشد، این خطا ایجاد می‌شود
+    response.raise_for_status()  # Raises an HTTPError if the HTTP request returned an unsuccessful status code
 
     print(response.status_code)
     print(response.json())

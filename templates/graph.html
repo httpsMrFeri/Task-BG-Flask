@@ -9,14 +9,23 @@
 <body>
     <div>
         <h1>Data Graph</h1>
-        <canvas id="myChart" width="400" height="400"></canvas>
+        <!-- Canvas for displaying the chart -->
+        <canvas id="myChart1" width="400" height="400"></canvas>
+        <canvas id="myChart2" width="400" height="400"></canvas>
+        <canvas id="myChart3" width="400" height="400"></canvas>
+        <canvas id="myChart4" width="400" height="400"></canvas>
+        <canvas id="myChart5" width="400" height="400"></canvas>
+        <canvas id="myChart6" width="400" height="400"></canvas>
     </div>
     
     <script>
+        // Access the data in JavaScript
         var deviceData = {{ device_data | tojson | safe }};
+        console.log(deviceData)
         
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var myChart = new Chart(ctx, {
+        // Example of using the data (you can replace this with your chart library logic)
+        var ctx1 = document.getElementById('myChart1').getContext('2d');
+        var myChart1 = new Chart(ctx1, {
             type: 'line',
             data: {
                 labels: deviceData.map(item => item.time),
@@ -24,6 +33,121 @@
                     label: 'W_Temp1',
                     data: deviceData.map(item => item.W_Temp1),
                     borderColor: 'rgb(75, 192, 192)',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    x: [{
+                        type: 'linear',
+                        position: 'bottom'
+                    }]
+                }
+            }
+        });
+
+        var ctx2 = document.getElementById('myChart2').getContext('2d');
+        var myChart2 = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: deviceData.map(item => item.time),
+                datasets: [{
+                    label: 'W_Temp2',
+                    data: deviceData.map(item => item.W_Temp2),
+                    borderColor: 'rgb(255, 99, 132)',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    x: [{
+                        type: 'linear',
+                        position: 'bottom'
+                    }]
+                }
+            }
+        });
+
+        var ctx3 = document.getElementById('myChart3').getContext('2d');
+        var myChart3 = new Chart(ctx3, {
+            type: 'line',
+            data: {
+                labels: deviceData.map(item => item.time),
+                datasets: [{
+                    label: 'W_Temp3',
+                    data: deviceData.map(item => item.W_Temp3),
+                    borderColor: 'rgb(255, 205, 86)',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    x: [{
+                        type: 'linear',
+                        position: 'bottom'
+                    }]
+                }
+            }
+        });
+
+        var ctx4 = document.getElementById('myChart4').getContext('2d');
+        var myChart4 = new Chart(ctx4, {
+            type: 'line',
+            data: {
+                labels: deviceData.map(item => item.time),
+                datasets: [{
+                    label: 'W_Temp4',
+                    data: deviceData.map(item => item.W_Temp4),
+                    borderColor: 'rgb(54, 162, 235)',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    x: [{
+                        type: 'linear',
+                        position: 'bottom'
+                    }]
+                }
+            }
+        });
+
+        var ctx5 = document.getElementById('myChart5').getContext('2d');
+        var myChart5 = new Chart(ctx5, {
+            type: 'line',
+            data: {
+                labels: deviceData.map(item => item.time),
+                datasets: [{
+                    label: 'W_Temp5',
+                    data: deviceData.map(item => item.W_Temp5),
+                    borderColor: 'rgb(255, 159, 64)',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    x: [{
+                        type: 'linear',
+                        position: 'bottom'
+                    }]
+                }
+            }
+        });
+
+        var ctx6 = document.getElementById('myChart6').getContext('2d');
+        var myChart6 = new Chart(ctx6, {
+            type: 'line',
+            data: {
+                labels: deviceData.map(item => item.time),
+                datasets: [{
+                    label: 'W_Temp6',
+                    data: deviceData.map(item => item.W_Temp6),
+                    borderColor: 'rgb(153, 102, 255)',
                     borderWidth: 2,
                     fill: false
                 }]

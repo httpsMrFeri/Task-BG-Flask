@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import DateTime
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from json.decoder import JSONDecodeError
 from datetime import datetime
@@ -23,7 +22,7 @@ class Device(db.Model):
     customer_id = db.Column(db.Integer)
     agent_id = db.Column(db.Integer)
     technition_id = db.Column(db.Integer)
-    created_at = db.Column(DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 class Event(db.Model):
     event_id = db.Column(db.Integer, primary_key=True)
@@ -33,7 +32,7 @@ class Event(db.Model):
 class Data(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     device_id = db.Column(db.Integer, db.ForeignKey('device.id'))
-    time = db.Column(DateTime)
+    time = db.Column(db.DateTime)
     date = db.Column(db.String)
     event_id = db.Column(db.Integer, db.ForeignKey('event.event_id'))
     W_Temp1 = db.Column(db.Float)
@@ -46,7 +45,7 @@ class Data(db.Model):
     B_Temp2 = db.Column(db.Float)
     Vib1 = db.Column(db.Float)
     Vib2 = db.Column(db.Float)
-    created_at = db.Column(DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 # Create tables
 with app.app_context():
@@ -55,6 +54,7 @@ with app.app_context():
 @app.route('/')
 def index():
     devices = Device.query.all()
+    print(devices)
     return render_template('index.html', devices=devices)
 
 @app.route('/device/<int:device_id>')
@@ -65,7 +65,21 @@ def device_details(device_id):
 @app.route('/graph/<int:device_id>')
 def graph(device_id):
     device_data = Data.query.filter_by(device_id=device_id).order_by(Data.time).all()
-    return render_template('graph.html', device_data=device_data)
+    formatted_device_data = [{
+        'time': data.time.strftime("%Y-%m-%d %H:%M:%S"),
+        'W_Temp1': data.W_Temp1,
+        'W_Temp2': data.W_Temp2,
+        'W_Temp3': data.W_Temp3,
+        'W_Temp4': data.W_Temp4,
+        'W_Temp5': data.W_Temp5,
+        'W_Temp6': data.W_Temp6,
+        'B_Temp1': data.B_Temp1,
+        'B_Temp2': data.B_Temp2,
+        'Vib1': data.Vib1,
+        'Vib2': data.Vib2
+    } for data in device_data]
+
+    return render_template('graph.html', device_data=formatted_device_data)
 
 @app.route('/api/store_data', methods=['POST'])
 def store_data():
@@ -75,10 +89,25 @@ def store_data():
 
     try:
         data_json = request.json
+        device_id = data_json.get('device_id')
+
+        # Check if the 'time' and 'date' keys are present and not None
+        time_str = data_json.get('time')
+        if time_str is not None:
+            time = datetime.strptime(time_str, "%Y-%m-%dT%H:%M:%SZ")
+        else:
+            time = None  # Set time to None if 'time' is not provided
+
+        date_str = data_json.get('date')
+        if date_str is not None:
+            date = datetime.strptime(date_str, "%Y-%m-%d").date()
+        else:
+            date = None  # Set date to None if 'date' is not provided
+
         new_data = Data(
-            device_id=data_json.get('device_id'),
-            time=datetime.strptime(data_json.get('time'), "%Y-%m-%dT%H:%M:%SZ"),
-            date=datetime.strptime(data_json.get('date'), "%Y-%m-%d").date(),
+            device_id=device_id,
+            time=time,
+            date=date,
             event_id=data_json.get('event_id'),
             W_Temp1=data_json.get('W_Temp1'),
             W_Temp2=data_json.get('W_Temp2'),
@@ -102,4 +131,3 @@ def store_data():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
