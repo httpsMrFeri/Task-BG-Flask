@@ -1,6 +1,6 @@
 import sqlite3
 
-db_path = '/home/feri/Templates/Program/Task/Bg/instance/data.db'
+db_path = input("DB path>>> ")
 
 connection = sqlite3.connect(db_path)
 cursor = connection.cursor()
